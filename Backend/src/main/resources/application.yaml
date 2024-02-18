@@ -1,0 +1,22 @@
+spring:
+  h2:
+    console:
+      enabled: true
+  datasource:
+    name: f1teams
+    generate-unique-name: false
+    url: jdbc:h2:mem:f1teams  # JDBC URL for H2 in-memory database
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create
+    database-platform: org.hibernate.dialect.H2Dialect
+
+#flyway:
+#  locations: classpath:db/migration  # Path to your SQL migration scripts
+
+jwt:
+  secret: mySecretKey
+  expiration: 1221C046827AE7F2F0A32AB001662C00351E617E884DE95C86EAEDAF7512E5EA
