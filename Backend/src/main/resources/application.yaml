@@ -5,18 +5,25 @@ spring:
   datasource:
     name: f1teams
     generate-unique-name: false
-    url: jdbc:h2:mem:f1teams  # JDBC URL for H2 in-memory database
+    url: jdbc:h2:mem:f1teams
     driver-class-name: org.h2.Driver
     username: sa
     password:
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     database-platform: org.hibernate.dialect.H2Dialect
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        format_sql: true
 
-#flyway:
-#  locations: classpath:db/migration  # Path to your SQL migration scripts
+flyway:
+  url: jdbc:h2:mem:f1teams
+  user: sa
+  password:
+  locations: classpath:db/migration
 
 jwt:
-  secret: mySecretKey
-  expiration: 1221C046827AE7F2F0A32AB001662C00351E617E884DE95C86EAEDAF7512E5EA
+  secret: 1221C046827AE7F2F0A32AB001662C00351E617E884DE95C86EAEDAF7512E5EA
+  expiration: 86400
