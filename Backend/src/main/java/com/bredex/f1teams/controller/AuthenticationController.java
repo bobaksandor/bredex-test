@@ -9,10 +9,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -45,5 +45,30 @@ public class AuthenticationController {
 	public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request) {
 
 		return authenticationService.authenticate(request);
+	}
+
+	@GetMapping("get-authenticated-user")
+	@PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+	public ResponseEntity<?> getAuthenticatedUser(
+			@AuthenticationPrincipal final UserDetails userDetails
+	) {
+
+		final var user = userRepository
+				.findByUsername(userDetails.getUsername())
+				.orElse(null);
+
+		if (user != null) {
+
+			return ResponseEntity.ok(user);
+
+		} else {
+
+			final var message = "There isn't any user in the database with the given username.";
+			return ResponseEntity
+					.status(HttpStatus.NOT_FOUND)
+					.body(message);
+
+		}
+
 	}
 }

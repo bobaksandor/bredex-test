@@ -45,7 +45,7 @@ public class CustomExceptionHandler {
 	}
 
 	@ExceptionHandler(DataIntegrityViolationException.class)
-	public ResponseEntity<String> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+	public ResponseEntity<String> handleDataIntegrityViolationException() {
 
 		final var message = "Unique or not null database constraint violated.";
 
@@ -71,7 +71,7 @@ public class CustomExceptionHandler {
 	}
 
 	@ExceptionHandler(AccessDeniedException.class)
-	public ResponseEntity<String> accessDeniedException(AccessDeniedException ex) {
+	public ResponseEntity<String> accessDeniedException() {
 
 		final var message = "You are not authenticated.";
 
