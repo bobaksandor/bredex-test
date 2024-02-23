@@ -92,8 +92,8 @@ const RegistrationForm = ({handleRegistration}) => {
     };
 
     return (
-        <form onSubmit={handleFormSubmit}>
-            <div className="max-w-md mx-auto mt-8 p-6 bg-gray-800 opacity-90 rounded-md shadow-md">
+        <form className="w-full" onSubmit={handleFormSubmit}>
+            <div className="mt-6 w-full px-6">
                 <h2 className="text-2xl font-bold text-white mb-4">Registration</h2>
                 <div className="mb-4">
                     <label className="block text-white text-sm font-bold mb-2" htmlFor="firstName">

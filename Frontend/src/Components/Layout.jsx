@@ -3,22 +3,23 @@ import {Route, Routes} from "react-router-dom";
 import Home from "./Home.jsx";
 import Login from ".//auth/Login.jsx";
 import Registration from ".//auth/Registration.jsx";
-// import ProfileComponent from "./Profile/ProfileComponent.jsx";
 import {useError} from "../context/error/ErrorContext.jsx";
 import ShowErrorMessage from "../context/error/ShowErrorMessage.jsx";
 import {useNotification} from "../context/notification/NotificationContext.jsx";
 import ShowNotificationMessage from "../context/notification/ShowNotificationMessage.jsx";
-// import ProtectedRoute from "../ProtectedRoute.jsx";
-// import {useSelector} from "react-redux";
 import NotFound from "./NotFound.jsx";
+import ProtectedRoute from "./auth/ProtectedRoute.jsx";
+import CreateTeam from "./CreateTeam.jsx";
+import {useSelector} from "react-redux";
+import Team from "./Team.jsx";
 
 const Layout = () => {
 
     const {errorState, closeError} = useError();
     const {notificationState, closeNotification} = useNotification();
 
-    // const user = useSelector((state) => state.auth.user);
-    // const token = useSelector((state) => state.auth.token);
+    const user = useSelector((state) => state.auth.user);
+    const token = useSelector((state) => state.auth.token);
 
 
     return (
@@ -41,19 +42,22 @@ const Layout = () => {
 
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/register" element={<Registration/>}/>
-                    {/*<Route path="/my-profile" element={*/}
-                    {/*    <ProtectedRoute user={user} token={token}>*/}
-                    {/*        <ProfileComponent/>*/}
-                    {/*    </ProtectedRoute>*/}
-                    {/*}/>*/}
+
+                    <Route path="/teams/:id" element={<Team/>}/>
+
+                    <Route path="/create-team" element={
+                        <ProtectedRoute user={user} token={token}>
+                            <CreateTeam/>
+                        </ProtectedRoute>
+                    }/>
 
                     <Route path="*" element={<NotFound/>}/>
                 </Routes>
             </main>
 
             <footer className="w-full bg-gray-800 text-white">
-                <div className="container mx-auto py-4">
-                    <p>&copy; 2023 Bredex - F1 Teams.</p>
+                <div className="flex flex-col  mx-6 py-4 gap-6">
+                    <p>&copy; 2024 Bredex - F1 Teams.</p>
                     <p>Contact: bobaksandor01@gmail.com</p>
                 </div>
             </footer>
