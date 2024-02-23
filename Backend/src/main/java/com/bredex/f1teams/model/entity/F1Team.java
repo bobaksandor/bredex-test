@@ -28,26 +28,17 @@ public class F1Team {
 	@NotBlank
 	private String name;
 
-	@NotBlank
-	private String owner;
-
-	@NotBlank
-	private String chassis;
-
-	@NotBlank
-	private String engineSupplier;
-
-	@NotBlank
-	private String base;
-
 	@NotNull
 	@Min(1950)
 	@Max(2024)
-	private Integer firstEntryYear;
+	private Integer foundingYear;
 
 	@Min(0)
 	@NotNull
 	private Integer championshipsWon;
+
+	@NotNull
+	private Boolean hasPayed;
 
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)

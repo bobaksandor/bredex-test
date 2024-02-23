@@ -72,7 +72,7 @@ const Registration = () => {
     };
 
     return (
-        <div className="w-full md:w-1/2 overflow-scroll my-6 bg-gray-800 opacity-90">
+        <div className="w-full md:w-1/2 overflow-auto my-6 bg-gray-800 opacity-90 rounded-2xl">
             <RegisterForm handleRegistration={handleRegistration}/>
         </div>
     );

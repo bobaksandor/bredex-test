@@ -107,7 +107,7 @@ const Home = () => {
 
     return (
 
-        <div className="w-full lg:w-2/3 h-full my-4 p-6 bg-gray-800 bg-opacity-95 rounded-2xl overflow-scroll">
+        <div className="w-full lg:w-2/3 my-4 p-6 bg-gray-800 bg-opacity-95 rounded-2xl overflow-auto">
             <div className="px-7 py-3 flex items-center justify-center mb-4 gap-4 rounded-2xl">
                 {startIndex !== 0 &&
                     <button
@@ -141,6 +141,14 @@ const Home = () => {
                     <th className="py-5">
                         <button
                             className="bg-black text-white px-4 py-2 rounded-full"
+                            onClick={() => handleOrderChange("foundingYear")}
+                        >
+                            {getPrettyName("foundingYear")}
+                        </button>
+                    </th>
+                    <th className="py-5">
+                        <button
+                            className="bg-black text-white px-4 py-2 rounded-full"
                             onClick={() => handleOrderChange("championshipsWon")}
                         >
                             {getPrettyName("championshipsWon")}
@@ -149,17 +157,9 @@ const Home = () => {
                     <th className="py-5">
                         <button
                             className="bg-black text-white px-4 py-2 rounded-full"
-                            onClick={() => handleOrderChange("base")}
+                            onClick={() => handleOrderChange("hasPayed")}
                         >
-                            {getPrettyName("base")}
-                        </button>
-                    </th>
-                    <th className="py-5">
-                        <button
-                            className="bg-black text-white px-4 py-2 rounded-full"
-                            onClick={() => handleOrderChange("owner")}
-                        >
-                            {getPrettyName("owner")}
+                            {getPrettyName("hasPayed")}
                         </button>
                     </th>
                 </tr>
@@ -169,9 +169,9 @@ const Home = () => {
                     <tr className="border hover:bg-gray-600 cursor-pointer" key={index}
                         onClick={() => navigate(`/teams/${team.id}`)}>
                         <td className="py-4 text-center"><a>{team?.name}</a></td>
+                        <td className="py-4 text-center"><a>{team?.foundingYear}</a></td>
                         <td className="py-4 text-center"><a>{team?.championshipsWon}</a></td>
-                        <td className="py-4 text-center"><a>{team?.base}</a></td>
-                        <td className="py-4 text-center"><a>{team?.owner}</a></td>
+                        <td className="py-4 text-center"><a>{team?.hasPayed ? "Yes" : "No"}</a></td>
                     </tr>
                 )}
                 </tbody>

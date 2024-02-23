@@ -67,12 +67,9 @@ const Team = () => {
 
     const handleUpdateTeam = async ({
                                         name,
-                                        owner,
-                                        chassis,
-                                        engineSupplier,
-                                        base,
-                                        firstEntryYear,
-                                        championshipsWon
+                                        foundingYear,
+                                        championshipsWon,
+                                        hasPayed
                                     }) => {
 
         try {
@@ -85,12 +82,9 @@ const Team = () => {
                 },
                 body: JSON.stringify({
                     name,
-                    owner,
-                    chassis,
-                    engineSupplier,
-                    base,
-                    firstEntryYear,
-                    championshipsWon
+                    foundingYear,
+                    championshipsWon,
+                    hasPayed
                 }),
             });
 
@@ -152,8 +146,8 @@ const Team = () => {
     }, [])
 
     return (
-        <div className="flex flex-col items-center w-full lg:w-1/2 h-full bg-gray-800 opacity-90 my-6 rounded-2xl overflow-scroll">
-            <h1 className="font-bold text-2xl text-white mt-3">
+        <div className="flex flex-col items-center w-full lg:w-1/2 bg-gray-800 opacity-90 my-6 rounded-2xl overflow-auto">
+            <h1 className="font-bold text-2xl text-white mt-3 mb-4">
                 {team?.name}
             </h1>
             {user?.authorities[0]?.authority === "ADMIN" &&

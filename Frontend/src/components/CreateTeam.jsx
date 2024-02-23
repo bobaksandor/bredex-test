@@ -13,12 +13,9 @@ const CreateTeam = () => {
 
     const handleCreateTeam = async ({
                                         name,
-                                        owner,
-                                        chassis,
-                                        engineSupplier,
-                                        base,
-                                        firstEntryYear,
-                                        championshipsWon
+                                        foundingYear,
+                                        championshipsWon,
+                                        hasPayed
                                     }) => {
 
         try {
@@ -31,12 +28,9 @@ const CreateTeam = () => {
                 },
                 body: JSON.stringify({
                     name,
-                    owner,
-                    chassis,
-                    engineSupplier,
-                    base,
-                    firstEntryYear,
-                    championshipsWon
+                    foundingYear,
+                    championshipsWon,
+                    hasPayed
                 }),
             });
 
@@ -61,7 +55,7 @@ const CreateTeam = () => {
 
 
     return (
-        <div className="w-full md:w-1/2 overflow-scroll my-6 bg-gray-800 opacity-90">
+        <div className="w-full md:w-1/2 overflow-auto my-6 bg-gray-800 opacity-90 rounded-2xl">
             <CreateTeamForm handleCreateTeam={handleCreateTeam}/>
         </div>
     );

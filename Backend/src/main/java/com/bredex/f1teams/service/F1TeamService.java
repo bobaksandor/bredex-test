@@ -29,7 +29,7 @@ public class F1TeamService {
 			throw new IllegalArgumentException("Invalid start parameter.");
 		}
 
-		if (!Arrays.asList("name", "championshipsWon", "base", "owner").contains(sortBy)) {
+		if (!Arrays.asList("name", "foundingYear", "championshipsWon", "hasPayed").contains(sortBy)) {
 
 			throw new IllegalArgumentException("Invalid sortBy parameter.");
 		}
@@ -60,12 +60,9 @@ public class F1TeamService {
 		return f1TeamRepository.save(
 				F1Team.builder()
 						.name(request.getName())
-						.base(request.getBase())
-						.owner(request.getOwner())
+						.foundingYear(request.getFoundingYear())
 						.championshipsWon(request.getChampionshipsWon())
-						.chassis(request.getChassis())
-						.firstEntryYear(request.getFirstEntryYear())
-						.engineSupplier(request.getEngineSupplier())
+						.hasPayed(request.getHasPayed())
 						.createdAt(new Date(System.currentTimeMillis()))
 						.updatedAt(new Date(System.currentTimeMillis()))
 						.build()
@@ -78,12 +75,9 @@ public class F1TeamService {
 				.map(team -> {
 
 					team.setName(request.getName());
-					team.setChassis(request.getChassis());
-					team.setBase(request.getBase());
-					team.setOwner(request.getOwner());
+					team.setFoundingYear(request.getFoundingYear());
 					team.setChampionshipsWon(request.getChampionshipsWon());
-					team.setEngineSupplier(request.getEngineSupplier());
-					team.setFirstEntryYear(request.getFirstEntryYear());
+					team.setHasPayed(request.getHasPayed());
 					team.setUpdatedAt(new Date(System.currentTimeMillis()));
 
 					return f1TeamRepository.save(team);

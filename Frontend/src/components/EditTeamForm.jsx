@@ -3,12 +3,9 @@ import {useState} from 'react';
 const EditTeamForm = ({handleUpdateTeam, team}) => {
 
     const [name, setName] = useState(team?.name);
-    const [owner, setOwner] = useState(team?.owner);
-    const [chassis, setChassis] = useState(team?.chassis);
-    const [engineSupplier, setEngineSupplier] = useState(team?.engineSupplier);
-    const [base, setBase] = useState(team?.base);
-    const [firstEntryYear, setFirstEntryYear] = useState(team?.firstEntryYear?.toString());
+    const [foundingYear, setFoundingYear] = useState(team?.foundingYear?.toString());
     const [championshipsWon, setChampionshipsWon] = useState(team?.championshipsWon?.toString());
+    const [hasPayed, setHasPayed] = useState(team?.hasPayed);
 
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState({});
@@ -26,40 +23,32 @@ const EditTeamForm = ({handleUpdateTeam, team}) => {
             errors.name = 'Team name must be 150 characters at maximum.';
         }
 
-        if (!owner.trim()) {
+        if (!foundingYear.trim()) {
 
-            errors.owner = 'Owner is required.';
+            errors.foundingYear = "First entry year is required.";
 
-        } else if (owner.length > 150) {
+        } else {
 
-            errors.owner = 'Owner must be 150 characters at maximum.';
-        }
+            const numericRegex = /^[+-]?\d+(\.\d+)?$/;
 
-        if (!chassis.trim()) {
+            if (!numericRegex.test(foundingYear)) {
 
-            errors.chassis = 'Chassis is required.';
+                errors.foundingYear = "Please enter a valid numeric amount.";
 
-        } else if (chassis.length > 150) {
+            } else {
 
-            errors.chassis = 'Chassis must be 150 characters at maximum.';
-        }
+                const numericAmount = parseInt(foundingYear);
 
-        if (!engineSupplier.trim()) {
+                if (isNaN(numericAmount)) {
 
-            errors.engineSupplier = 'Engine supplier is required.';
+                    errors.foundingYear = "Please enter a valid numeric amount.";
 
-        } else if (engineSupplier.length > 150) {
+                } else if (numericAmount > new Date().getFullYear() || numericAmount < 1950) {
 
-            errors.engineSupplier = 'Engine supplier must be 150 characters at maximum.';
-        }
+                    errors.foundingYear = `First entry year must be between 1950 and ${new Date().getFullYear()}.`;
 
-        if (!base.trim()) {
-
-            errors.base = 'Base is required.';
-
-        } else if (base.length > 150) {
-
-            errors.base = 'Base must be 150 characters at maximum.';
+                }
+            }
         }
 
         if (!championshipsWon.trim()) {
@@ -93,34 +82,6 @@ const EditTeamForm = ({handleUpdateTeam, team}) => {
             }
         }
 
-        if (!firstEntryYear.trim()) {
-
-            errors.firstEntryYear = "First entry year is required.";
-
-        } else {
-
-            const numericRegex = /^[+-]?\d+(\.\d+)?$/;
-
-            if (!numericRegex.test(firstEntryYear)) {
-
-                errors.firstEntryYear = "Please enter a valid numeric amount.";
-
-            } else {
-
-                const numericAmount = parseInt(firstEntryYear);
-
-                if (isNaN(numericAmount)) {
-
-                    errors.firstEntryYear = "Please enter a valid numeric amount.";
-
-                } else if (numericAmount > new Date().getFullYear() || numericAmount < 1950) {
-
-                    errors.firstEntryYear = `First entry year must be between 1950 and ${new Date().getFullYear()}.`;
-
-                }
-            }
-        }
-
         setErrors(errors);
         return Object.keys(errors).length === 0;
     };
@@ -135,12 +96,9 @@ const EditTeamForm = ({handleUpdateTeam, team}) => {
 
             const team = {
                 name,
-                owner,
-                chassis,
-                engineSupplier,
-                base,
-                firstEntryYear,
-                championshipsWon
+                foundingYear,
+                championshipsWon,
+                hasPayed
             }
 
             await handleUpdateTeam(team);
@@ -152,136 +110,63 @@ const EditTeamForm = ({handleUpdateTeam, team}) => {
     return (
         <form className="w-full" onSubmit={handleFormSubmit}>
             <div className="mt-6 w-full px-6">
-                <div className="w-full mb-4 flex flex-col">
-                    <div className="flex flex-row">
-                        <label className="block text-white text-sm font-bold w-full" htmlFor="name">
-                            Name
-                        </label>
-                        <input
-                            className="border border-blue-950 bg-blue-100 px-3 py-2 rounded w-full focus:outline-none focus:border-blue-500"
-                            type="text"
-                            id="teamName"
-                            placeholder="Team name"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                        />
-                    </div>
-                    <div className="flex items-end justify-end">
-                        {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
-                    </div>
+                <div className="mb-4">
+                    <label className="block text-white text-sm font-bold mb-2" htmlFor="name">
+                        Name
+                    </label>
+                    <input
+                        className="border border-gray-300 px-3 py-2 rounded w-full focus:outline-none focus:border-blue-500"
+                        type="text"
+                        id="teamName"
+                        placeholder="Team name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                    />
+                    {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
                 </div>
-                <div className="w-full mb-4 flex flex-col">
-                    <div className="flex flex-row">
-                        <label className="block text-white text-sm font-bold w-full" htmlFor="owner">
-                            Owner
-                        </label>
-                        <input
-                            className="border border-blue-950 bg-blue-100 px-3 py-2 rounded w-full focus:outline-none focus:border-blue-500"
-                            type="text"
-                            id="owner"
-                            placeholder="Owner Name"
-                            value={owner}
-                            onChange={(e) => setOwner(e.target.value)}
-                        />
-                    </div>
-                    <div className="flex items-end justify-end">
-                        {errors.owner && <p className="text-red-500 text-sm mt-1">{errors.owner}</p>}
-                    </div>
+                <div className="mb-4">
+                    <label className="block text-white text-sm font-bold mb-2" htmlFor="foundingYear">
+                        Founding Year
+                    </label>
+                    <input
+                        className="border border-gray-300 px-3 py-2 rounded w-full focus:outline-none focus:border-blue-500"
+                        type="number"
+                        id="foundingYear"
+                        placeholder="2000"
+                        value={foundingYear}
+                        onChange={(e) => setFoundingYear(e.target.value)}
+                    />
+                    {errors.foundingYear && <p className="text-red-500 text-sm mt-1">{errors.foundingYear}</p>}
                 </div>
-                <div className="w-full mb-4 flex flex-col">
-                    <div className="flex flex-row">
-                        <label className="block text-white text-sm font-bold w-full" htmlFor="chassis">
-                            Chassis
-                        </label>
-                        <input
-                            className="border border-blue-950 bg-blue-100 px-3 py-2 rounded w-full focus:outline-none focus:border-blue-500"
-                            type="text"
-                            id="chassis"
-                            placeholder="Chassis"
-                            value={chassis}
-                            onChange={(e) => setChassis(e.target.value)}
-                        />
-                    </div>
-                    <div className="flex items-end justify-end">
-                        {errors.chassis && <p className="text-red-500 text-sm mt-1">{errors.chassis}</p>}
-                    </div>
+                <div className="mb-4">
+                    <label className="block text-white text-sm font-bold mb-2" htmlFor="championshipsWon">
+                        Championships Won
+                    </label>
+                    <input
+                        className="border border-gray-300 px-3 py-2 rounded w-full focus:outline-none focus:border-blue-500"
+                        type="number"
+                        id="championshipsWon"
+                        placeholder="0"
+                        value={championshipsWon}
+                        onChange={(e) => setChampionshipsWon(e.target.value)}
+                    />
+                    {errors.championshipsWon && <p className="text-red-500 text-sm mt-1">{errors.championshipsWon}</p>}
                 </div>
-                <div className="w-full mb-4 flex flex-col">
-                    <div className="flex flex-row">
-                        <label className="block text-white text-sm font-bold w-full" htmlFor="engineSupplier">
-                            Engine Supplier
-                        </label>
-                        <input
-                            className="border border-blue-950 bg-blue-100 px-3 py-2 rounded w-full focus:outline-none focus:border-blue-500"
-                            type="text"
-                            id="engineSupplier"
-                            placeholder="Engine Supplier"
-                            value={engineSupplier}
-                            onChange={(e) => setEngineSupplier(e.target.value)}
-                        />
-                    </div>
-                    <div className="flex items-end justify-end">
-                        {errors.engineSupplier && <p className="text-red-500 text-sm mt-1">{errors.engineSupplier}</p>}
-                    </div>
-                </div>
-                <div className="w-full mb-4 flex flex-col">
-                    <div className="flex flex-row">
-                        <label className="block text-white text-sm font-bold w-full" htmlFor="base">
-                            Base
-                        </label>
-                        <input
-                            className="border border-blue-950 bg-blue-100 px-3 py-2 rounded w-full focus:outline-none focus:border-blue-500"
-                            type="text"
-                            id="base"
-                            placeholder="Base country"
-                            value={base}
-                            onChange={(e) => setBase(e.target.value)}
-                        />
-                    </div>
-                    <div className="flex items-end justify-end">
-                        {errors.base && <p className="text-red-500 text-sm mt-1">{errors.base}</p>}
-                    </div>
-                </div>
-                <div className="w-full mb-4 flex flex-col">
-                    <div className="flex flex-row">
-                        <label className="block text-white text-sm font-bold w-full" htmlFor="championshipsWon">
-                            Championships Won
-                        </label>
-                        <input
-                            className="border border-blue-950 bg-blue-100 px-3 py-2 rounded w-full focus:outline-none focus:border-blue-500"
-                            type="number"
-                            id="championshipsWon"
-                            placeholder="0"
-                            value={championshipsWon}
-                            onChange={(e) => setChampionshipsWon(e.target.value)}
-                        />
-                    </div>
-                    <div className="flex items-end justify-end">
-                        {errors.championshipsWon &&
-                            <p className="text-red-500 text-sm mt-1">{errors.championshipsWon}</p>}
-                    </div>
-                </div>
-                <div className="w-full mb-4 flex flex-col">
-                    <div className="flex flex-row">
-                        <label className="block text-white text-sm font-bold w-full" htmlFor="firstEntryYear">
-                            First Entry Date
-                        </label>
-                        <input
-                            className="border border-blue-950 bg-blue-100 px-3 py-2 rounded w-full focus:outline-none focus:border-blue-500"
-                            type="number"
-                            id="firstEntryYear"
-                            placeholder="2000"
-                            value={firstEntryYear}
-                            onChange={(e) => setFirstEntryYear(e.target.value)}
-                        />
-                    </div>
-                    <div className="flex items-end justify-end">
-                        {errors.firstEntryYear && <p className="text-red-500 text-sm mt-1">{errors.firstEntryYear}</p>}
-                    </div>
+                <div className="mb-4">
+                    <label className="block text-white text-sm font-bold mb-2" htmlFor="hasPayed">
+                        Has Already Payed
+                    </label>
+                    <input
+                        className="border border-gray-300 px-3 py-2 rounded focus:outline-none focus:border-blue-500 h-6 w-6"
+                        type="checkbox"
+                        id="isPopular"
+                        checked={hasPayed}
+                        onChange={() => setHasPayed(!hasPayed)}
+                    />
                 </div>
                 <button
                     type="submit"
-                    className={`bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue active:bg-blue-800 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    className={`mb-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue active:bg-blue-800 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
                     disabled={loading}
                 >
                     {loading ? 'Updating...' : 'Update'}

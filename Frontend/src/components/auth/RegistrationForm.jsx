@@ -181,7 +181,7 @@ const RegistrationForm = ({handleRegistration}) => {
                 </div>
                 <button
                     type="submit"
-                    className={`bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue active:bg-blue-800 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    className={`mb-6 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue active:bg-blue-800 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
 
                     disabled={loading}
                 >
