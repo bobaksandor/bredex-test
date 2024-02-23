@@ -4,6 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -74,6 +75,16 @@ public class CustomExceptionHandler {
 	public ResponseEntity<String> accessDeniedException() {
 
 		final var message = "You are not authenticated.";
+
+		return ResponseEntity
+				.status(HttpStatus.BAD_REQUEST)
+				.body(message);
+	}
+
+	@ExceptionHandler(HttpMessageNotReadableException.class)
+	public ResponseEntity<String> httpMessageNotReadableException() {
+
+		final var message = "The request body is not correct.";
 
 		return ResponseEntity
 				.status(HttpStatus.BAD_REQUEST)
