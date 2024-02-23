@@ -1,6 +1,7 @@
 package com.bredex.f1teams.model.entity;
 
 import com.bredex.f1teams.model.enums.Role;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -61,12 +62,14 @@ public class User implements UserDetails {
 
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(pattern = "yyyy-MM-dd  HH:mm:ss", timezone = "Europe/Budapest")
 	@PastOrPresent
 	@NotNull
 	private Date createdAt;
 
 	@UpdateTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(pattern = "yyyy-MM-dd  HH:mm:ss", timezone = "Europe/Budapest")
 	@PastOrPresent
 	@NotNull
 	private Date updatedAt;
