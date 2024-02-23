@@ -12,8 +12,6 @@ const Navbar = () => {
     const {showNotification} = useNotification()
 
 
-
-
     return (
         <nav className="p-4 h-20  overflow-hidden">
             <div
@@ -23,13 +21,18 @@ const Navbar = () => {
                         F1 Teams
                     </Link>
                 </div>
-
-
+                {user?.authorities[0]?.authority === "ADMIN" &&
+                    <Link to="/create-team" className="text-white hover:text-gray-300 text-xl">
+                        Create Team
+                    </Link>
+                }
                 <div className="flex items-center space-x-2">
                     <div className="flex items-center space-x-2">
                         {user ? (
                             <div className="flex gap-6 items-center justify-center">
-                                <span className="text-white text-xl">Hello {user?.username}!</span>
+                                <div className="hidden md:block">
+                                    <span className="text-white text-xl">Hello {user?.username}!</span>
+                                </div>
                                 <button
                                     className="mx-auto bg-red-500 text-white px-6 py-3 rounded-full hover:bg-red-700 transition duration-300"
                                     onClick={() => {

@@ -1,6 +1,5 @@
 package com.bredex.f1teams.controller;
 
-import com.bredex.f1teams.model.entity.F1Team;
 import com.bredex.f1teams.model.request.F1TeamRequest;
 import com.bredex.f1teams.repository.F1TeamRepository;
 import com.bredex.f1teams.service.F1TeamService;
@@ -29,11 +28,13 @@ public class F1TeamController {
 			@RequestParam(required = false, defaultValue = "asc") final String sortOrder
 	) {
 
-		List<F1Team> f1Teams = f1TeamService.getF1Teams(start, sortBy, sortOrder);
+		final var f1Teams = f1TeamService.getF1Teams(start, sortBy, sortOrder);
+
+		final var f1TeamsLength = f1TeamRepository.count();
 
 		return ResponseEntity
 				.status(HttpStatus.OK)
-				.body(f1Teams);
+				.body(List.of(f1TeamsLength, f1Teams));
 	}
 
 	@GetMapping("/{id}")

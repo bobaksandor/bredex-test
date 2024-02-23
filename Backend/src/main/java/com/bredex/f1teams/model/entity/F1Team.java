@@ -2,10 +2,7 @@ package com.bredex.f1teams.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -44,8 +41,9 @@ public class F1Team {
 	private String base;
 
 	@NotNull
-	@JsonFormat(pattern = "yyyy", timezone = "Europe/Budapest")
-	private Date firstEntryYear;
+	@Min(1950)
+	@Max(2024)
+	private Integer firstEntryYear;
 
 	@Min(0)
 	@NotNull

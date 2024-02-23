@@ -40,7 +40,7 @@ public class F1TeamRequest {
 	private String base;
 
 	@NotNull
-	private Date firstEntryYear;
+	private Integer firstEntryYear;
 
 	@Min(0)
 	@NotNull
